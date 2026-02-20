@@ -25,11 +25,10 @@ export default function Transactions(){
 
 
   async function fetchAccountsAndCategories(){
-    if(!costCenterId) return
     try{
       const [accs, cats] = await Promise.all([
-        api.getAccounts(),
-        api.getCategories()
+        api.getAccounts(costCenterId ? { cost_center_id: costCenterId } : undefined),
+        api.getCategories(costCenterId ? { cost_center_id: costCenterId } : undefined)
       ])
       setAccounts(accs || [])
       setCategories(cats || [])
@@ -38,6 +37,20 @@ export default function Transactions(){
 
   useEffect(() => {
     fetchAccountsAndCategories()
+  }, [costCenterId])
+
+
+  useEffect(() => {
+    (async () => {
+      try{
+        const data = await api.getCostCenters()
+        setCostCenters(data || [])
+      }catch(e){ console.error('Erro ao buscar centros de custo', e) }
+    })()
+  }, [])
+
+  useEffect(() => {
+    fetchTransactions()
   }, [costCenterId])
 
   async function fetchTransactions(){
@@ -89,6 +102,14 @@ export default function Transactions(){
       <h3>Nova Transação</h3>
       <form onSubmit={handleCreate}>
         <fieldset>
+          <legend>Centro de Custo</legend>
+          <select value={costCenterId} onChange={e=>setCostCenterId(e.target.value)} required>
+            <option value="">-- centro de custo --</option>
+            {costCenters.map(cc => <option key={cc._id || cc.id} value={cc._id || cc.id}>{cc.name}</option>)}
+          </select>
+        </fieldset>
+
+        <fieldset>
           <legend>Dados Básicos</legend>
           <input value={description} onChange={e=>setDescription(e.target.value)} placeholder="Descrição" required />
           <input value={amount} onChange={e=>setAmount(e.target.value)} placeholder="Valor" type="number" step="0.01" required />
@@ -135,11 +156,11 @@ export default function Transactions(){
           <legend>Referências</legend>
           <select value={accountId} onChange={e=>setAccountId(e.target.value)}>
             <option value="">-- conta (opcional) --</option>
-            {accounts.map(a => <option key={a._id} value={a._id}>{a.name}</option>)}
+            {accounts.map(a => <option key={a._id || a.id} value={a._id || a.id}>{a.name}</option>)}
           </select>
           <select value={categoryId} onChange={e=>setCategoryId(e.target.value)}>
             <option value="">-- categoria (opcional) --</option>
-            {categories.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
+            {categories.map(c => <option key={c._id || c.id} value={c._id || c.id}>{c.name}</option>)}
           </select>
         </fieldset>
 
@@ -148,7 +169,7 @@ export default function Transactions(){
       </form>
 
       <ul>
-        {transactions.map(t=> <li key={t.id}>{t.description} — {t.amount} — {t.date}</li>)}
+        {transactions.map(t=> <li key={t._id || t.id}>{t.description} — {t.amount} — {t.date}</li>)}
       </ul>
     </div>
   )
