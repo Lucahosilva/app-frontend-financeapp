@@ -1,4 +1,4 @@
-const BASE = 'http://localhost:8000'
+const BASE = import.meta.env.VITE_API_BASE_URL || '/api'
 
 async function request(path: string, options: RequestInit = {}) {
   const url = `${BASE}${path}`
@@ -50,8 +50,9 @@ export const api = {
   createCategory: (payload: any) => request('/categories/', { method: 'POST', body: JSON.stringify(payload) }),
 
   // Accounts
-  getAccounts: () => {
-    return request(`/accounts/`)
+  getAccounts: (params?: Record<string,string>) => {
+    const q = params ? '?' + new URLSearchParams(params).toString() : ''
+    return request(`/accounts/${q}`)
   },
   createAccount: (payload: any) => request('/accounts/', { method: 'POST', body: JSON.stringify(payload) }),
   getAccount: (account_id: string) => request(`/accounts/${account_id}`),
