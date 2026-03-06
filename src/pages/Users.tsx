@@ -8,6 +8,8 @@ export default function Users() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [costCenterId, setCostCenterId] = useState('')
+  const [activeTab, setActiveTab] = useState<'create' | 'list'>('create')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => { 
     fetchCostCenters()
@@ -23,10 +25,12 @@ export default function Users() {
   }
 
   async function fetchUsers() {
+    setLoading(true)
     try {
       const data = await api.getUsers()
       setUsers(data || [])
     } catch (e) { alert(String(e)) }
+    finally { setLoading(false) }
   }
 
   async function handleCreate(e: React.FormEvent) {
@@ -43,6 +47,32 @@ export default function Users() {
   return (
     <div>
       <h2>Users</h2>
+      
+      <div style={{ marginBottom: '20px' }}>
+        <button 
+          onClick={() => setActiveTab('create')} 
+          style={{ 
+            marginRight: '10px', 
+            backgroundColor: activeTab === 'create' ? 'var(--accent-blue)' : 'var(--primary-light)',
+            color: activeTab === 'create' ? 'white' : 'var(--text-primary)'
+          }}
+        >
+          Criar Usuário
+        </button>
+        <button 
+          onClick={() => setActiveTab('list')} 
+          style={{ 
+            backgroundColor: activeTab === 'list' ? 'var(--accent-blue)' : 'var(--primary-light)',
+            color: activeTab === 'list' ? 'white' : 'var(--text-primary)'
+          }}
+        >
+          Listar Usuários
+        </button>
+      </div>
+
+      {activeTab === 'create' && (
+        <>
+          <h3>Novo Usuário</h3>
       <form onSubmit={handleCreate}>
         <fieldset>
           <legend>Centro de Custo</legend>
@@ -59,9 +89,23 @@ export default function Users() {
         </fieldset>
         <button type="submit">Criar</button>
       </form>
-      <ul>
-        {users.map(u => <li key={u._id || u.id}>{u.name} — {u.email}</li>)}
-      </ul>
+        </>
+      )}
+
+      {activeTab === 'list' && (
+        <>
+          <h3>Lista de Usuários</h3>
+          {loading ? (
+            <p>Carregando...</p>
+          ) : users.length === 0 ? (
+            <p>Nenhum usuário encontrado.</p>
+          ) : (
+            <ul>
+              {users.map(u => <li key={u._id || u.id}>{u.name} — {u.email}</li>)}
+            </ul>
+          )}
+        </>
+      )}
     </div>
   )
 }

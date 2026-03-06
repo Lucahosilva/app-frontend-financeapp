@@ -22,6 +22,7 @@ export default function Transactions(){
   const [splitType, setSplitType] = useState('')
   const [transactionDate, setTransactionDate] = useState(new Date().toISOString().slice(0, 10))
   const [loading, setLoading] = useState(false)
+  const [activeTab, setActiveTab] = useState<'create' | 'list'>('create')
 
 
   async function fetchAccountsAndCategories(){
@@ -35,9 +36,24 @@ export default function Transactions(){
     }catch(e){ console.error('Erro ao buscar contas/categorias', e) }
   }
 
+  async function fetchAllAccountsAndCategories(){
+    try{
+      const [accs, cats] = await Promise.all([
+        api.getAccounts(),
+        api.getCategories()
+      ])
+      setAccounts(accs || [])
+      setCategories(cats || [])
+    }catch(e){ console.error('Erro ao buscar todas as contas/categorias', e) }
+  }
+
   useEffect(() => {
-    fetchAccountsAndCategories()
-  }, [costCenterId])
+    if(activeTab === 'create') {
+      fetchAccountsAndCategories()
+    } else if(activeTab === 'list') {
+      fetchAllAccountsAndCategories()
+    }
+  }, [costCenterId, activeTab])
 
 
   useEffect(() => {
@@ -50,14 +66,19 @@ export default function Transactions(){
   }, [])
 
   useEffect(() => {
-    fetchTransactions()
-  }, [costCenterId])
+    if(activeTab === 'list') {
+      fetchTransactions(false) // Buscar todas as transações na aba de listagem
+    } else {
+      fetchTransactions(true) // Manter filtro por cost_center na aba de criação
+    }
+  }, [activeTab, costCenterId])
 
-  async function fetchTransactions(){
-    if(!costCenterId) return setTransactions([])
+  async function fetchTransactions(filterCostCenter: boolean = true){
+    if(filterCostCenter && !costCenterId) return setTransactions([])
     setLoading(true)
     try{
-      const data = await api.getTransactions({ cost_center_id: costCenterId })
+      const params = filterCostCenter && costCenterId ? { cost_center_id: costCenterId } : undefined
+      const data = await api.getTransactions(params)
       setTransactions(data || [])
     }catch(e){ alert(String(e)) }
     finally{ setLoading(false) }
@@ -97,10 +118,33 @@ export default function Transactions(){
   return (
     <div>
       <h2>Transactions</h2>
+      
+      <div style={{ marginBottom: '20px' }}>
+        <button 
+          onClick={() => setActiveTab('create')} 
+          style={{ 
+            marginRight: '10px', 
+            backgroundColor: activeTab === 'create' ? 'var(--accent-blue)' : 'var(--primary-light)',
+            color: activeTab === 'create' ? 'white' : 'var(--text-primary)'
+          }}
+        >
+          Criar Transação
+        </button>
+        <button 
+          onClick={() => setActiveTab('list')} 
+          style={{ 
+            backgroundColor: activeTab === 'list' ? 'var(--accent-blue)' : 'var(--primary-light)',
+            color: activeTab === 'list' ? 'white' : 'var(--text-primary)'
+          }}
+        >
+          Listar Transações
+        </button>
+      </div>
 
-
-      <h3>Nova Transação</h3>
-      <form onSubmit={handleCreate}>
+      {activeTab === 'create' && (
+        <>
+          <h3>Nova Transação</h3>
+          <form onSubmit={handleCreate}>
         <fieldset>
           <legend>Centro de Custo</legend>
           <select value={costCenterId} onChange={e=>setCostCenterId(e.target.value)} required>
@@ -167,10 +211,34 @@ export default function Transactions(){
 
         <button type="submit">Criar transação</button>
       </form>
+        </>
+      )}
 
-      <ul>
-        {transactions.map(t=> <li key={t._id || t.id}>{t.description} — {t.amount} — {t.date}</li>)}
-      </ul>
+      {activeTab === 'list' && (
+        <>
+          <h3>Lista de Transações</h3>
+          {loading ? (
+            <p>Carregando...</p>
+          ) : transactions.length === 0 ? (
+            <p>Nenhuma transação encontrada.</p>
+          ) : (
+            <ul>
+              {transactions.map(t => (
+                <li key={t._id || t.id}>
+                  <div style={{ marginBottom: '8px' }}>
+                    <strong>{t.description}</strong> — R$ {Number(t.amount).toFixed(2)} — {new Date(t.date).toLocaleDateString('pt-BR')}
+                  </div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+                    Tipo: {t.flow_type} | Método: {t.payment_method?.type || 'N/A'} | 
+                    Conta: {accounts.find(a => a._id === t.account_id)?.name || 'N/A'} | 
+                    Categoria: {categories.find(c => c._id === t.category_id)?.name || 'N/A'}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      )}
     </div>
   )
 }

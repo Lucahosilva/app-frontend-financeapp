@@ -5,6 +5,7 @@ export default function CostCenters() {
   const [costCenters, setCostCenters] = useState<any[]>([])
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
+  const [activeTab, setActiveTab] = useState<'create' | 'list'>('create')
 
   useEffect(() => { fetchCostCenters() }, [])
 
@@ -32,6 +33,32 @@ export default function CostCenters() {
   return (
     <div>
       <h2>Centros de Custo</h2>
+      
+      <div style={{ marginBottom: '20px' }}>
+        <button 
+          onClick={() => setActiveTab('create')} 
+          style={{ 
+            marginRight: '10px', 
+            backgroundColor: activeTab === 'create' ? 'var(--accent-blue)' : 'var(--primary-light)',
+            color: activeTab === 'create' ? 'white' : 'var(--text-primary)'
+          }}
+        >
+          Criar Centro de Custo
+        </button>
+        <button 
+          onClick={() => setActiveTab('list')} 
+          style={{ 
+            backgroundColor: activeTab === 'list' ? 'var(--accent-blue)' : 'var(--primary-light)',
+            color: activeTab === 'list' ? 'white' : 'var(--text-primary)'
+          }}
+        >
+          Listar Centros de Custo
+        </button>
+      </div>
+
+      {activeTab === 'create' && (
+        <>
+          <h3>Novo Centro de Custo</h3>
       <form onSubmit={handleCreate}>
         <fieldset>
           <legend>Novo Centro de Custo</legend>
@@ -39,10 +66,22 @@ export default function CostCenters() {
           <button type="submit">Criar</button>
         </fieldset>
       </form>
-      {loading ? <p>Carregando...</p> : (
-        <ul>
-          {costCenters.map(h => <li key={h._id || h.id}>{h.name} ({h._id || h.cost_center_id})</li>)}
-        </ul>
+        </>
+      )}
+
+      {activeTab === 'list' && (
+        <>
+          <h3>Lista de Centros de Custo</h3>
+          {loading ? (
+            <p>Carregando...</p>
+          ) : costCenters.length === 0 ? (
+            <p>Nenhum centro de custo encontrado.</p>
+          ) : (
+            <ul>
+              {costCenters.map(h => <li key={h._id || h.id}>{h.name}</li>)}
+            </ul>
+          )}
+        </>
       )}
     </div>
   )

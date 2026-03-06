@@ -10,6 +10,8 @@ export default function Accounts(){
   const [closingDay, setClosingDay] = useState('')
   const [dueDay, setDueDay] = useState('')
   const [costCenterId, setCostCenterId] = useState('')
+  const [activeTab, setActiveTab] = useState<'create' | 'list'>('create')
+  const [loading, setLoading] = useState(false)
 
   useEffect(()=>{ 
     fetchAccounts() 
@@ -17,7 +19,9 @@ export default function Accounts(){
 
 
   async function fetchAccounts(){
+    setLoading(true)
     try{ const data = await api.getAccounts(); setAccounts(data || []) }catch(e){ alert(String(e)) }
+    finally{ setLoading(false) }
   }
 
   async function handleCreate(e: React.FormEvent){
@@ -35,6 +39,32 @@ export default function Accounts(){
   return (
     <div>
       <h2>Accounts</h2>
+      
+      <div style={{ marginBottom: '20px' }}>
+        <button 
+          onClick={() => setActiveTab('create')} 
+          style={{ 
+            marginRight: '10px', 
+            backgroundColor: activeTab === 'create' ? 'var(--accent-blue)' : 'var(--primary-light)',
+            color: activeTab === 'create' ? 'white' : 'var(--text-primary)'
+          }}
+        >
+          Criar Conta
+        </button>
+        <button 
+          onClick={() => setActiveTab('list')} 
+          style={{ 
+            backgroundColor: activeTab === 'list' ? 'var(--accent-blue)' : 'var(--primary-light)',
+            color: activeTab === 'list' ? 'white' : 'var(--text-primary)'
+          }}
+        >
+          Listar Contas
+        </button>
+      </div>
+
+      {activeTab === 'create' && (
+        <>
+          <h3>Nova Conta</h3>
       <form onSubmit={handleCreate}>
         <fieldset>
           <legend>Dados Básicos</legend>
@@ -62,9 +92,23 @@ export default function Accounts(){
         </fieldset>
         <button type="submit">Criar</button>
       </form>
-      <ul>
-        {accounts.map(a=> <li key={a._id}>{a.name} ({a.type}) — {a.current_balance ?? a.initial_balance}</li>)}
-      </ul>
+        </>
+      )}
+
+      {activeTab === 'list' && (
+        <>
+          <h3>Lista de Contas</h3>
+          {loading ? (
+            <p>Carregando...</p>
+          ) : accounts.length === 0 ? (
+            <p>Nenhuma conta encontrada.</p>
+          ) : (
+            <ul>
+              {accounts.map(a=> <li key={a._id}>{a.name} ({a.type}) — R$ {Number(a.current_balance ?? a.initial_balance).toFixed(2)}</li>)}
+            </ul>
+          )}
+        </>
+      )}
     </div>
   )
 }

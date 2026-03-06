@@ -7,6 +7,8 @@ export default function Categories(){
   const [name, setName] = useState('')
   const [type, setType] = useState<'income'|'expense'>('expense')
   const [costCenterId, setCostCenterId] = useState('')
+  const [activeTab, setActiveTab] = useState<'create' | 'list'>('create')
+  const [loading, setLoading] = useState(false)
 
   useEffect(()=>{ 
     fetchCostCenters()
@@ -18,7 +20,9 @@ export default function Categories(){
   }
 
   async function fetchCategories(){
+    setLoading(true)
     try{ const data = await api.getCategories(); setCategories(data || []) }catch(e){ alert(String(e)) }
+    finally{ setLoading(false) }
   }
 
   async function handleCreate(e: React.FormEvent){
@@ -36,6 +40,32 @@ export default function Categories(){
   return (
     <div>
       <h2>Categories</h2>
+      
+      <div style={{ marginBottom: '20px' }}>
+        <button 
+          onClick={() => setActiveTab('create')} 
+          style={{ 
+            marginRight: '10px', 
+            backgroundColor: activeTab === 'create' ? 'var(--accent-blue)' : 'var(--primary-light)',
+            color: activeTab === 'create' ? 'white' : 'var(--text-primary)'
+          }}
+        >
+          Criar Categoria
+        </button>
+        <button 
+          onClick={() => setActiveTab('list')} 
+          style={{ 
+            backgroundColor: activeTab === 'list' ? 'var(--accent-blue)' : 'var(--primary-light)',
+            color: activeTab === 'list' ? 'white' : 'var(--text-primary)'
+          }}
+        >
+          Listar Categorias
+        </button>
+      </div>
+
+      {activeTab === 'create' && (
+        <>
+          <h3>Nova Categoria</h3>
       <form onSubmit={handleCreate}>
         <fieldset>
           <legend>Nova Categoria</legend>
@@ -51,9 +81,23 @@ export default function Categories(){
         </fieldset>
         <button type="submit">Criar</button>
       </form>
-      <ul>
-        {categories.map(c=> <li key={c._id}>{c.name} ({c.type})</li>)}
-      </ul>
+        </>
+      )}
+
+      {activeTab === 'list' && (
+        <>
+          <h3>Lista de Categorias</h3>
+          {loading ? (
+            <p>Carregando...</p>
+          ) : categories.length === 0 ? (
+            <p>Nenhuma categoria encontrada.</p>
+          ) : (
+            <ul>
+              {categories.map(c=> <li key={c._id}>{c.name} ({c.type})</li>)}
+            </ul>
+          )}
+        </>
+      )}
     </div>
   )
 }
