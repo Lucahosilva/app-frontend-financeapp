@@ -1,43 +1,67 @@
-import React, { useState } from 'react'
-import CostCenters from './pages/CostCenters'
-import Users from './pages/Users'
-import Transactions from './pages/Transactions'
-import Categories from './pages/Categories'
-import Accounts from './pages/Accounts'
-import EntriesByMonth from './pages/EntriesByMonth'
-import CardStatement from './pages/CardStatement'
-import PayEntry from './pages/PayEntry'
+import React, { useState } from 'react';
+import { MainLayout } from './layout/MainLayout';
+import { Dashboard } from './pages/Dashboard';
+import { useDarkMode } from './hooks/useTheme';
+import CostCenters from './pages/CostCenters';
+import Users from './pages/Users';
+import Transactions from './pages/Transactions';
+import Categories from './pages/Categories';
+import Accounts from './pages/Accounts';
+import EntriesByMonth from './pages/EntriesByMonth';
+import CardStatement from './pages/CardStatement';
+import PayEntry from './pages/PayEntry';
+import './styles.css';
+
+const pageNames: Record<string, string> = {
+  dashboard: 'Dashboard',
+  transactions: 'Transações',
+  accounts: 'Contas',
+  categories: 'Categorias',
+  'cost-centers': 'Centros de Custo',
+  users: 'Usuários',
+  entries: 'Entradas por Mês',
+  card: 'Extrato do Cartão',
+  pay: 'Entrada de Pagamento',
+};
 
 export default function App() {
-  const [view, setView] = useState<'home' | 'cost-centers' | 'users' | 'transactions' | 'categories' | 'accounts' | 'entries' | 'card' | 'pay'>('home')
+  const [activeView, setActiveView] = useState('dashboard');
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
+
+  const renderPage = () => {
+    switch (activeView) {
+      case 'dashboard':
+        return <Dashboard />;
+      case 'transactions':
+        return <Transactions />;
+      case 'accounts':
+        return <Accounts />;
+      case 'categories':
+        return <Categories />;
+      case 'cost-centers':
+        return <CostCenters />;
+      case 'users':
+        return <Users />;
+      case 'entries':
+        return <EntriesByMonth />;
+      case 'card':
+        return <CardStatement />;
+      case 'pay':
+        return <PayEntry />;
+      default:
+        return <Dashboard />;
+    }
+  };
 
   return (
-    <div className="app">
-      <header>
-        <h1>Finance App (Front)</h1>
-        <nav>
-          <button onClick={() => setView('home')}>Home</button>
-          <button onClick={() => setView('cost-centers')}>Centros de Custo</button>
-          <button onClick={() => setView('users')}>Users</button>
-          <button onClick={() => setView('transactions')}>Transactions</button>
-          <button onClick={() => setView('categories')}>Categories</button>
-          <button onClick={() => setView('accounts')}>Accounts</button>
-          <button onClick={() => setView('entries')}>Entries By Month</button>
-          <button onClick={() => setView('card')}>Card Statement</button>
-          <button onClick={() => setView('pay')}>Pay Entry</button>
-        </nav>
-      </header>
-      <main>
-        {view === 'home' && <p>Bem vindo ao sistema de transações financeiras</p>}
-        {view === 'cost-centers' && <CostCenters />}
-        {view === 'users' && <Users />}
-        {view === 'transactions' && <Transactions />}
-        {view === 'categories' && <Categories />}
-        {view === 'accounts' && <Accounts />}
-        {view === 'entries' && <EntriesByMonth />}
-        {view === 'card' && <CardStatement />}
-        {view === 'pay' && <PayEntry />}
-      </main>
-    </div>
-  )
+    <MainLayout
+      activeView={activeView}
+      setActiveView={setActiveView}
+      pageTitle={pageNames[activeView]}
+      isDarkMode={isDarkMode}
+      onToggleDarkMode={toggleDarkMode}
+    >
+      {renderPage()}
+    </MainLayout>
+  );
 }

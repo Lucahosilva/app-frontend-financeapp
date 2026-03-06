@@ -56,6 +56,7 @@ export const api = {
   },
   createAccount: (payload: any) => request('/accounts/', { method: 'POST', body: JSON.stringify(payload) }),
   getAccount: (account_id: string) => request(`/accounts/${account_id}`),
+  recalculateAccountBalance: (account_id: string) => request(`/accounts/${account_id}/recalculate-balance`, { method: 'PATCH' }),
 
   // Delete multiple transactions
   deleteTransactions: (filter: any) => request('/transactions/', { method: 'DELETE', body: JSON.stringify(filter) }),
