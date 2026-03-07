@@ -79,7 +79,7 @@ export default function CostCenters() {
               <Loader className="animate-spin text-emerald-500" size={32} />
             </div>
           ) : costCenters.length === 0 ? (
-            <div className="card p-8 text-center">
+            <div className="card p-4 sm:p-6 lg:p-8 text-center">
               <p className="text-slate-600 dark:text-slate-400">Nenhum centro de custo encontrado.</p>
             </div>
           ) : (
@@ -108,7 +108,7 @@ export default function CostCenters() {
 
       {activeTab === 'create' && (
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl">
-          <div className="card p-8">
+          <div className="card p-4 sm:p-6 lg:p-8">
             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Novo Centro de Custo</h3>
             <form onSubmit={handleCreate} className="space-y-6">
               <div>

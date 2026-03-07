@@ -42,7 +42,7 @@ export default function CardStatement(){
         <p className="text-slate-600 dark:text-slate-400 mt-1">Visualize o extrato do seu cartão de crédito</p>
       </div>
 
-      <div className="card p-8">
+      <div className="card p-4 sm:p-6 lg:p-8">
         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Filtrar Extrato</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>

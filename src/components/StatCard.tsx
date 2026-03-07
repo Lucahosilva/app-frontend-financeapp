@@ -80,7 +80,7 @@ export const StatCard: React.FC<StatCardProps> = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: delay * 0.1 }}
       whileHover={{ y: -8, transition: { duration: 0.2 } }}
-      className={`card p-6 active:scale-[0.98] cursor-pointer overflow-hidden relative`}
+      className={`card p-4 sm:p-6 active:scale-[0.98] cursor-pointer overflow-hidden relative`}
     >
       {/* Gradient Background */}
       <div
@@ -102,7 +102,7 @@ export const StatCard: React.FC<StatCardProps> = ({
 
         {/* Value */}
         <div className="mb-3">
-          <p className="text-4xl font-bold text-slate-900 dark:text-white">
+          <p className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
             {currency ? formatCurrency(displayValue) : Math.round(displayValue)}
           </p>
         </div>

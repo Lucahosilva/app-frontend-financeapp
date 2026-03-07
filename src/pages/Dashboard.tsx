@@ -141,9 +141,9 @@ export const Dashboard: React.FC = () => {
   }
 
   return (
-    <motion.div className="space-y-8 page-enter">
+    <motion.div className="space-y-6 sm:space-y-8 page-enter">
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <StatCard
           title="Saldo Total"
           value={stats.totalBalance}
@@ -186,12 +186,12 @@ export const Dashboard: React.FC = () => {
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
         <BalanceEvolutionChart />
         <MonthlyExpensesChart />
       </div>
 
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 gap-3 sm:gap-4 lg:gap-6">
         <IncomeVsExpensesChart />
       </div>
 

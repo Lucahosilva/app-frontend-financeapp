@@ -16,14 +16,14 @@ export const Header: React.FC<HeaderProps> = ({ pageTitle, isDarkMode, onToggleD
       transition={{ duration: 0.5 }}
       className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-30"
     >
-      <div className="flex items-center justify-between px-6 lg:px-8 py-4">
+      <div className="flex items-center justify-between px-3 sm:px-4 lg:px-8 py-3 sm:py-4">
         {/* Title */}
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">{pageTitle}</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white truncate">{pageTitle}</h2>
 
         {/* Right Section */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           {/* Search Bar */}
-          <div className="hidden md:flex items-center gap-2 bg-slate-100 dark:bg-slate-700 rounded-lg px-4 py-2">
+          <div className="hidden lg:flex items-center gap-2 bg-slate-100 dark:bg-slate-700 rounded-lg px-4 py-2">
             <Search size={18} className="text-slate-400" />
             <input
               type="text"
@@ -36,7 +36,8 @@ export const Header: React.FC<HeaderProps> = ({ pageTitle, isDarkMode, onToggleD
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            className="relative p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+            className="relative p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+            aria-label="Notificações"
           >
             <Bell size={20} className="text-slate-600 dark:text-slate-300" />
             <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
@@ -47,7 +48,8 @@ export const Header: React.FC<HeaderProps> = ({ pageTitle, isDarkMode, onToggleD
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={onToggleDarkMode}
-            className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+            className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+            aria-label="Alternar modo escuro"
           >
             {isDarkMode ? (
               <Sun size={20} className="text-yellow-500" />

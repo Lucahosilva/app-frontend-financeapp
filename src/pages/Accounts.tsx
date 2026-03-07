@@ -187,7 +187,7 @@ export default function Accounts(){
               <p className="text-slate-600 dark:text-slate-400">Nenhuma conta encontrada.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
               {accounts.map((account, index) => (
                 <motion.div
                   key={getAccountId(account)}
@@ -245,13 +245,13 @@ export default function Accounts(){
 
       {activeTab === 'create' && (
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl">
-          <div className="card p-8">
+          <div className="card p-4 sm:p-6 lg:p-4 sm:p-6 lg:p-8">
             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Nova Conta</h3>
             <form onSubmit={handleCreate} className="space-y-6">
               {/* Basic Info */}
               <div className="space-y-4">
                 <h4 className="font-semibold text-slate-900 dark:text-white">Dados Básicos</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Nome da Conta
@@ -295,7 +295,7 @@ export default function Accounts(){
               {(type === 'credit_card' || type === 'checking') && (
                 <div className="space-y-4">
                   <h4 className="font-semibold text-slate-900 dark:text-white">Datas (Opcional)</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                     <div>
                       <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Dia de Fechamento

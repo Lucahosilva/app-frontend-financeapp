@@ -51,7 +51,7 @@ export default function PayEntry(){
         <p className="text-slate-600 dark:text-slate-400 mt-1">Registre o pagamento de lançamentos</p>
       </div>
 
-      <div className="card p-8">
+      <div className="card p-4 sm:p-6 lg:p-8">
         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Filtrar Lançamentos</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
@@ -83,12 +83,12 @@ export default function PayEntry(){
           <Loader className="animate-spin text-emerald-500" size={32} />
         </div>
       ) : entries.length === 0 ? (
-        <div className="card p-8 text-center">
+        <div className="card p-4 sm:p-6 lg:p-8 text-center">
           <p className="text-slate-600 dark:text-slate-400">Nenhum lançamento encontrado.</p>
         </div>
       ) : (
         <div className="space-y-6">
-          <div className="card p-8">
+          <div className="card p-4 sm:p-6 lg:p-8">
             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Selecione um Lançamento</h3>
             <select value={selectedEntry} onChange={e=>setSelectedEntry(e.target.value)} className="input-base mb-6">
               <option value="">-- Selecione um lançamento --</option>

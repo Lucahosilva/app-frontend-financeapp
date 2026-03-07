@@ -21,17 +21,17 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
 }) => {
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-slate-900">
-      {/* Sidebar - sempre visível */}
+      {/* Sidebar */}
       <Sidebar activeView={activeView} setActiveView={setActiveView} />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden w-full md:w-auto">
         {/* Header */}
         <Header pageTitle={pageTitle} isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
 
         {/* Page Content */}
         <main className="flex-1 overflow-auto">
-          <div className="p-4 lg:p-8">{children}</div>
+          <div className="p-3 sm:p-4 lg:p-8">{children}</div>
         </main>
       </div>
     </div>

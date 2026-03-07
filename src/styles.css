@@ -8,11 +8,11 @@
   }
 
   html {
-    @apply scroll-smooth;
+    @apply scroll-smooth overflow-x-hidden;
   }
 
   body {
-    @apply bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50 font-sans;
+    @apply bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50 font-sans overflow-x-hidden;
   }
 }
 

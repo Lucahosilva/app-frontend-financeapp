@@ -234,7 +234,7 @@ export default function Transactions(){
               <Loader className="animate-spin text-emerald-500" size={32} />
             </div>
           ) : transactions.length === 0 ? (
-            <div className="card p-8 text-center">
+            <div className="card p-4 sm:p-6 lg:p-4 sm:p-6 lg:p-8 text-center">
               <p className="text-slate-600 dark:text-slate-400">Nenhuma transação encontrada.</p>
             </div>
           ) : (
@@ -335,7 +335,7 @@ export default function Transactions(){
 
       {activeTab === 'create' && (
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-4xl">
-          <div className="card p-8">
+          <div className="card p-4 sm:p-6 lg:p-4 sm:p-6 lg:p-8">
             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Nova Transação</h3>
             <form onSubmit={handleCreate} className="space-y-8">
               {/* Centro de Custo */}
@@ -359,7 +359,7 @@ export default function Transactions(){
               {/* Dados Básicos */}
               <div className="space-y-4">
                 <h4 className="font-semibold text-slate-900 dark:text-white">Dados Básicos</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Descrição
@@ -387,7 +387,7 @@ export default function Transactions(){
                     />
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Tipo de Fluxo
@@ -435,7 +435,7 @@ export default function Transactions(){
                   </select>
                 </div>
                 {transactionType === 'installment' && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                     <div>
                       <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Número de Parcelas
@@ -484,7 +484,7 @@ export default function Transactions(){
                   </select>
                 </div>
                 {(paymentMethodType === 'credit_card' || paymentMethodType === 'debit') && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                     <div>
                       <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Dia de Fechamento
@@ -516,7 +516,7 @@ export default function Transactions(){
               {/* Referências */}
               <div className="space-y-4">
                 <h4 className="font-semibold text-slate-900 dark:text-white">Referências (Opcional)</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Conta
@@ -583,7 +583,7 @@ export default function Transactions(){
           <motion.div
             initial={{ scale: 0.9, y: 20 }}
             animate={{ scale: 1, y: 0 }}
-            className="bg-white dark:bg-slate-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white dark:bg-slate-800 rounded-lg p-4 sm:p-6 max-w-md w-full max-h-[90vh] overflow-y-auto"
           >
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Editar Transação</h3>

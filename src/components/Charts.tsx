@@ -102,12 +102,12 @@ export const BalanceEvolutionChart: React.FC = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className="card p-6 col-span-1 lg:col-span-2"
+      className="card p-3 sm:p-6 col-span-1 md:col-span-1 lg:col-span-2"
     >
-      <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-6">
+      <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 sm:mb-6">
         Evolução do Saldo
       </h3>
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={280}>
         <LineChart data={data}>
           <defs>
             <linearGradient id="colorBalance" x1="0" y1="0" x2="0" y2="1">
@@ -188,12 +188,12 @@ export const MonthlyExpensesChart: React.FC = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      className="card p-6"
+      className="card p-3 sm:p-6"
     >
-      <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-6">
+      <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 sm:mb-6">
         Despesas por Categoria
       </h3>
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={280}>
         <PieChart>
           <Pie
             data={data}
@@ -283,12 +283,12 @@ export const IncomeVsExpensesChart: React.FC = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      className="card p-6 col-span-1 lg:col-span-2"
+      className="card p-3 sm:p-6 col-span-1 md:col-span-1 lg:col-span-2"
     >
-      <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-6">
+      <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 sm:mb-6">
         Receita vs Despesas
       </h3>
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={280}>
         <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
           <XAxis dataKey="month" stroke="#94a3b8" />
